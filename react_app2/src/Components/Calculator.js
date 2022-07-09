@@ -50,10 +50,10 @@ export default class Calculator extends Component {
     });
   }
   checkOperands() {
-    isNaN(this.state.firstOperand) ||
-    this.state.firstOperand === "" ||
-    isNaN(this.state.secondOperand) ||
-    this.state.secondOperand === ""
+    return isNaN(this.state.firstOperand) ||
+      this.state.firstOperand === "" ||
+      isNaN(this.state.secondOperand) ||
+      this.state.secondOperand === ""
       ? this.result("")
       : this.countOperands(
           this.state.select,
