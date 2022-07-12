@@ -21,8 +21,7 @@ export default class ToDo extends Component {
     ]
   };
 
-  delTask = (id, event) => {
-    event.stopPropagation();
+  delTask = (id) => {
     this.setState({
       toDoList: this.state.toDoList.filter((task) => task.id !== id)
     });
