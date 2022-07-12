@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Task.scss";
 
 export default class Task extends Component {
-  onToggleClick = (e) => {
+  onDelClick = (e) => {
     e.stopPropagation();
     this.props.delTask(this.props.task.id);
   };
@@ -14,7 +14,7 @@ export default class Task extends Component {
         className={this.props.task.done ? "task done" : "task undone"}
       >
         <div className="taskName">{this.props.task.taskName}</div>
-        <button onClick={this.onToggleClick} className="del">
+        <button onClick={this.onDelClick} className="del">
           x
         </button>
       </div>
