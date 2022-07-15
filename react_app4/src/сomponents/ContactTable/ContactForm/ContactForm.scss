@@ -1,0 +1,22 @@
+form {
+  margin: 20px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid #ccc;
+  background: #fff;
+  input {
+    width: 0;
+  }
+
+  * {
+    border: 1px solid #ccc;
+    justify-content: center;
+    display: flex;
+    flex: 1;
+    padding: 0.5em;
+  }
+  button {
+    max-width: 100px;
+    margin: 0 !important;
+  }
+}

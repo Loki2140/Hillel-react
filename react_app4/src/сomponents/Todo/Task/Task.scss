@@ -1,0 +1,16 @@
+.task {
+  display: flex;
+  border: 1px solid black;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  .taskName {
+    margin: 0 50px;
+  }
+}
+.done {
+  background-color: rgba(155, 245, 155, 0.541);
+}
+.undone {
+  background-color: rgba(245, 155, 155, 0.541);
+}
