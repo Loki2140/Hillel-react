@@ -16,12 +16,12 @@ export default class ContactForm extends Component {
 
   onFormSubmit = (e) => {
     e.preventDefault();
-    const newTask = {
+    const newContact = {
       name: this.state.name,
       surname: this.state.surname,
       email: this.state.email
     };
-    this.props.addNewContact(newTask);
+    this.props.addNewContact(newContact);
     this.setState({
       name: "",
       surname: "",
@@ -30,12 +30,19 @@ export default class ContactForm extends Component {
   };
 
   // work!!!!!
-  onFormChange = (obj) => {
+  onFormEdit = (e) => {
+    e.preventDefault();
+    const editedContact = {
+      ...this.props.contact,
+      name: this.state.name,
+      surname: this.state.surname,
+      email: this.state.email
+    };
+    this.props.updateContactForm(editedContact);
     this.setState({
-      name: "Name",
-      surname: "Surname",
-      email: "E-Mail",
-      edit: false
+      name: "",
+      surname: "",
+      email: ""
     });
   };
 

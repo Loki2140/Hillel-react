@@ -9,7 +9,9 @@ import "./ContactTable.scss";
 export default class ContactTable extends Component {
   state = {
     contacts: [],
-    errors: []
+    errors: [],
+    edit: false,
+    contact: {}
   };
 
   componentDidMount() {
@@ -45,7 +47,12 @@ export default class ContactTable extends Component {
             ))}
           </tbody>
         </table>
-        <ContactForm addNewContact={this.addNewContact} />
+        <ContactForm
+          addNewContact={this.addNewContact}
+          edit={this.state.edit}
+          contact={this.state.contact}
+          updateContactForm={this.updateContactForm}
+        />
         <div className="error">
           {this.state.errors.map((error) => (
             <div>{error}</div>
@@ -91,28 +98,36 @@ export default class ContactTable extends Component {
       });
   };
   // lection - work
-  updateTodo(updatedTodo) {
-    const prevTodo = this.state.list.find((item) => item.id === updatedTodo.id);
+  updateContactForm = (updatedContact) => {
+    const prevContact = this.state.contacts.find(
+      (item) => item.id === updatedContact.id
+    );
+    const prevErrorList = this.state.errors;
 
     this.setState({
-      list: this.state.list.map((item) =>
-        item.id === updatedTodo.id ? updatedTodo : item
+      contacts: this.state.contacts.map((item) =>
+        item.id === updatedContact.id ? updatedContact : item
       )
     });
 
-    return updateObj(updatedTodo).catch(() => {
+    return updateObj(updatedContact).catch(() => {
       this.setState({
-        error: "Something went wrong",
-        list: this.state.list.map((item) =>
-          item.id === prevTodo.id ? prevTodo : item
+        errors: [
+          ...prevErrorList,
+          "Something went wrong, cannot add Contact!!!"
+        ],
+        contacts: this.state.contacts.map((item) =>
+          item.id === prevContact.id ? prevContact : item
         )
       });
     });
-  }
-  // lection - work ends
+  };
 
   updateContact = (id) => {
     const contact = this.state.contacts.find((item) => item.id === id);
-    console.log(contact);
+    this.setState({
+      edit: true,
+      contact: contact
+    });
   };
 }
