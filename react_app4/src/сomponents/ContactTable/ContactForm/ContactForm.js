@@ -9,9 +9,7 @@ export default class ContactForm extends Component {
   };
 
   onNameInputChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
+    this.setState({ ...this.state, [e.target.name]: e.target.value });
   };
 
   onFormSubmit = (e) => {
@@ -21,15 +19,18 @@ export default class ContactForm extends Component {
       surname: this.state.surname,
       email: this.state.email
     };
-    this.props.addNewContact(newContact);
-    this.setState({
-      name: "",
-      surname: "",
-      email: ""
-    });
+    if (this.isContactValid(newContact)) {
+      this.props.addNewContact(newContact);
+      this.setState({
+        name: "",
+        surname: "",
+        email: ""
+      });
+    } else {
+      this.props.errorEmptyField();
+    }
   };
 
-  // work!!!!!
   onFormEdit = (e) => {
     e.preventDefault();
     const editedContact = {
@@ -38,13 +39,29 @@ export default class ContactForm extends Component {
       surname: this.state.surname,
       email: this.state.email
     };
-    this.props.updateContactForm(editedContact);
-    this.setState({
-      name: "",
-      surname: "",
-      email: ""
-    });
+    if (this.isContactValid(editedContact)) {
+      this.props.updateContactForm(editedContact);
+      this.setState({
+        name: "",
+        surname: "",
+        email: ""
+      });
+    } else {
+      this.props.errorEmptyField();
+    }
   };
+
+  isContactValid() {
+    return (
+      this.isTextFieldValid(this.state.name) &&
+      this.isTextFieldValid(this.state.surname) &&
+      this.isTextFieldValid(this.state.email)
+    );
+  }
+
+  isTextFieldValid(value) {
+    return value !== "";
+  }
 
   //Как-то сделал, теперь понять как?
 

@@ -18,15 +18,12 @@ export default class ContactTable extends Component {
     this.fetchContacts();
   }
   fetchContacts() {
-    const prevErrorList = this.state.errors;
     return getObjList()
-      .then((data) => this.setState({ contacts: data }))
+      .then((data) => this.setState({ ...this.state, contacts: data }))
       .catch(() => {
         this.setState({
-          errors: [
-            ...prevErrorList,
-            "Something went wrong, cannot get Contacts!!!"
-          ]
+          ...this.state,
+          errors: ["Something went wrong, cannot get Contacts!!!"]
         });
       });
   }
@@ -52,11 +49,10 @@ export default class ContactTable extends Component {
           edit={this.state.edit}
           contact={this.state.contact}
           updateContactForm={this.updateContactForm}
+          errorEmptyField={this.errorEmptyField}
         />
         <div className="error">
-          {this.state.errors.map((error) => (
-            <div>{error}</div>
-          ))}
+          <div>{this.state.errors}</div>
         </div>
       </>
     );
@@ -64,47 +60,42 @@ export default class ContactTable extends Component {
 
   removeContact = (id) => {
     const prevContacts = this.state.contacts;
-    const prevErrorList = this.state.errors;
     const newContacts = this.state.contacts.filter((item) => item.id !== id);
-    this.setState({
-      contacts: newContacts
-    });
+    this.setState({ ...this.state, contacts: newContacts });
     return removeObj(id).catch(() => {
       this.setState({
-        errors: [
-          ...prevErrorList,
-          "Something went wrong, cannot remove Contact!!!"
-        ],
+        ...this.state,
+        errors: ["Something went wrong, cannot remove Contact!!!"],
         contacts: prevContacts
       });
     });
   };
 
   addNewContact = (newObj) => {
-    const prevErrorList = this.state.errors;
     createObj(newObj)
       .then((data) => {
         this.setState({
+          ...this.state,
           contacts: [...this.state.contacts, data]
         });
       })
       .catch(() => {
         this.setState({
-          errors: [
-            ...prevErrorList,
-            "Something went wrong, cannot add Contact!!!"
-          ]
+          ...this.state,
+          errors: ["Something went wrong, cannot add Contact!!!"]
         });
       });
   };
-  // lection - work
+
   updateContactForm = (updatedContact) => {
     const prevContact = this.state.contacts.find(
       (item) => item.id === updatedContact.id
     );
-    const prevErrorList = this.state.errors;
+    console.log(prevContact);
+    console.log(updatedContact);
 
     this.setState({
+      ...this.state,
       contacts: this.state.contacts.map((item) =>
         item.id === updatedContact.id ? updatedContact : item
       ),
@@ -113,10 +104,8 @@ export default class ContactTable extends Component {
 
     return updateObj(updatedContact).catch(() => {
       this.setState({
-        errors: [
-          ...prevErrorList,
-          "Something went wrong, cannot add Contact!!!"
-        ],
+        ...this.state,
+        errors: ["Something went wrong, cannot edit Contact!!!"],
         contacts: this.state.contacts.map((item) =>
           item.id === prevContact.id ? prevContact : item
         )
@@ -126,9 +115,22 @@ export default class ContactTable extends Component {
 
   updateContact = (id) => {
     const contact = this.state.contacts.find((item) => item.id === id);
+    this.setState({ ...this.state, edit: true, contact: contact });
+  };
+
+  errorEmptyField = () => {
     this.setState({
-      edit: true,
-      contact: contact
+      ...this.state,
+      errors: ["There should not be empty fields!"]
     });
   };
+
+  // как это работает?
+  componentDidUpdate(prev, prevState) {
+    console.log(this.state.errors === prevState.errors);
+
+    if (this.state.errors === prevState.errors) {
+      this.setState({ ...this.state, errors: [] });
+    }
+  }
 }
