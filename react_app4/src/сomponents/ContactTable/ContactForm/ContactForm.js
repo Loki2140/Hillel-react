@@ -46,6 +46,21 @@ export default class ContactForm extends Component {
     });
   };
 
+  //Как-то сделал, теперь понять как?
+
+  componentDidUpdate(prev) {
+    // console.log("текущие пропмсы", this.props.contact);
+    // console.log("прошлые пропмсы", prev.contact);
+    // console.log(this.props.contact !== prev.contact);
+    if (this.props.contact !== prev.contact) {
+      this.setState({
+        name: this.props.contact.name,
+        surname: this.props.contact.surname,
+        email: this.props.contact.email
+      });
+    }
+  }
+
   render() {
     return (
       <form className="newContact">
@@ -54,7 +69,7 @@ export default class ContactForm extends Component {
           name="name"
           type="text"
           placeholder="Name"
-          value={this.props.edit ? this.props.contact.name : this.state.name}
+          value={this.state.name}
           onChange={this.onNameInputChange}
         />
         <input
@@ -62,9 +77,7 @@ export default class ContactForm extends Component {
           name="surname"
           type="text"
           placeholder="Surname"
-          value={
-            this.props.edit ? this.props.contact.surname : this.state.surname
-          }
+          value={this.state.surname}
           onChange={this.onNameInputChange}
         />
         <input
@@ -72,7 +85,7 @@ export default class ContactForm extends Component {
           name="email"
           type="text"
           placeholder="E-mail"
-          value={this.props.edit ? this.props.contact.email : this.state.email}
+          value={this.state.email}
           onChange={this.onNameInputChange}
         />
         {this.props.edit ? (

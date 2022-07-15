@@ -107,7 +107,8 @@ export default class ContactTable extends Component {
     this.setState({
       contacts: this.state.contacts.map((item) =>
         item.id === updatedContact.id ? updatedContact : item
-      )
+      ),
+      edit: false
     });
 
     return updateObj(updatedContact).catch(() => {
