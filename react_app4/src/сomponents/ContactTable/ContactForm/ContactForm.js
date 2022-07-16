@@ -66,10 +66,12 @@ export default class ContactForm extends Component {
   //Как-то сделал, теперь понять как?
 
   componentDidUpdate(prev) {
-    // console.log("текущие пропмсы", this.props.contact);
-    // console.log("прошлые пропмсы", prev.contact);
-    // console.log(this.props.contact !== prev.contact);
-    if (this.props.contact !== prev.contact) {
+    // console.log("текущие пропмсы", this.props.edit);
+    // console.log("прошлые пропмсы", prev.edit);
+    // console.log(this.props.edit !== prev.edit);
+    // console.log(this.props.edit !== prev.edit);
+    if (this.props.edit !== prev.edit && this.props.edit) {
+      // if (this.props.contact !== prev.contact) {
       this.setState({
         name: this.props.contact.name,
         surname: this.props.contact.surname,

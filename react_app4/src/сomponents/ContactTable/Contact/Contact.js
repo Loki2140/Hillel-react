@@ -7,6 +7,7 @@ export default class ContactTableHead extends Component {
     this.props.removeContact(this.props.contact.id);
   };
   onContactChenge = () => {
+    if (this.props.edit) return;
     this.props.updateContact(this.props.contact.id);
   };
 

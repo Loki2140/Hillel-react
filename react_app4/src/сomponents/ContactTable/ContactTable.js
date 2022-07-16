@@ -40,6 +40,7 @@ export default class ContactTable extends Component {
                 contact={contact}
                 removeContact={this.removeContact}
                 updateContact={this.updateContact}
+                edit={this.state.edit} 
               />
             ))}
           </tbody>
@@ -91,8 +92,8 @@ export default class ContactTable extends Component {
     const prevContact = this.state.contacts.find(
       (item) => item.id === updatedContact.id
     );
-    console.log(prevContact);
-    console.log(updatedContact);
+    // console.log(prevContact);
+    // console.log(updatedContact);
 
     this.setState({
       ...this.state,
@@ -127,7 +128,7 @@ export default class ContactTable extends Component {
 
   // как это работает?
   componentDidUpdate(prev, prevState) {
-    console.log(this.state.errors === prevState.errors);
+    // console.log(this.state.errors === prevState.errors);
 
     if (this.state.errors === prevState.errors) {
       this.setState({ ...this.state, errors: [] });
