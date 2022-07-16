@@ -10,6 +10,7 @@ export default class ContactForm extends Component {
 
   onNameInputChange = (e) => {
     this.setState({ ...this.state, [e.target.name]: e.target.value });
+    if (this.props.edit) this.props.editContact(e);
   };
 
   onFormSubmit = (e) => {
@@ -35,9 +36,9 @@ export default class ContactForm extends Component {
     e.preventDefault();
     const editedContact = {
       ...this.props.contact,
-      name: this.state.name,
-      surname: this.state.surname,
-      email: this.state.email
+      name: this.props.contact.name,
+      surname: this.props.contact.surname,
+      email: this.props.contact.email
     };
     if (this.isContactValid(editedContact)) {
       this.props.updateContactForm(editedContact);
@@ -51,11 +52,11 @@ export default class ContactForm extends Component {
     }
   };
 
-  isContactValid() {
+  isContactValid(contact) {
     return (
-      this.isTextFieldValid(this.state.name) &&
-      this.isTextFieldValid(this.state.surname) &&
-      this.isTextFieldValid(this.state.email)
+      this.isTextFieldValid(contact.name) &&
+      this.isTextFieldValid(contact.surname) &&
+      this.isTextFieldValid(contact.email)
     );
   }
 
@@ -65,20 +66,20 @@ export default class ContactForm extends Component {
 
   //Как-то сделал, теперь понять как?
 
-  componentDidUpdate(prev) {
-    // console.log("текущие пропмсы", this.props.edit);
-    // console.log("прошлые пропмсы", prev.edit);
-    // console.log(this.props.edit !== prev.edit);
-    // console.log(this.props.edit !== prev.edit);
-    if (this.props.edit !== prev.edit && this.props.edit) {
-      // if (this.props.contact !== prev.contact) {
-      this.setState({
-        name: this.props.contact.name,
-        surname: this.props.contact.surname,
-        email: this.props.contact.email
-      });
-    }
-  }
+  // componentDidUpdate(prev) {
+  //   // console.log("текущие пропмсы", this.props.edit);
+  //   // console.log("прошлые пропмсы", prev.edit);
+  //   // console.log(this.props.edit !== prev.edit);
+  //   // console.log(this.props.edit !== prev.edit);
+  //   if (this.props.edit !== prev.edit && this.props.edit) {
+  //     // if (this.props.contact !== prev.contact) {
+  //     this.setState({
+  //       name: this.props.contact.name,
+  //       surname: this.props.contact.surname,
+  //       email: this.props.contact.email
+  //     });
+  //   }
+  // }
 
   render() {
     return (
@@ -88,7 +89,7 @@ export default class ContactForm extends Component {
           name="name"
           type="text"
           placeholder="Name"
-          value={this.state.name}
+          value={this.props.edit ? this.props.contact.name : this.state.name}
           onChange={this.onNameInputChange}
         />
         <input
@@ -96,7 +97,9 @@ export default class ContactForm extends Component {
           name="surname"
           type="text"
           placeholder="Surname"
-          value={this.state.surname}
+          value={
+            this.props.edit ? this.props.contact.surname : this.state.surname
+          }
           onChange={this.onNameInputChange}
         />
         <input
@@ -104,7 +107,7 @@ export default class ContactForm extends Component {
           name="email"
           type="text"
           placeholder="E-mail"
-          value={this.state.email}
+          value={this.props.edit ? this.props.contact.email : this.state.email}
           onChange={this.onNameInputChange}
         />
         {this.props.edit ? (

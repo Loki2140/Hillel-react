@@ -17,6 +17,7 @@ export default class ContactTable extends Component {
   componentDidMount() {
     this.fetchContacts();
   }
+
   fetchContacts() {
     return getObjList()
       .then((data) => this.setState({ ...this.state, contacts: data }))
@@ -25,6 +26,7 @@ export default class ContactTable extends Component {
           ...this.state,
           errors: ["Something went wrong, cannot get Contacts!!!"]
         });
+        this.clearError();
       });
   }
 
@@ -40,7 +42,7 @@ export default class ContactTable extends Component {
                 contact={contact}
                 removeContact={this.removeContact}
                 updateContact={this.updateContact}
-                edit={this.state.edit} 
+                edit={this.state.edit}
               />
             ))}
           </tbody>
@@ -50,6 +52,7 @@ export default class ContactTable extends Component {
           edit={this.state.edit}
           contact={this.state.contact}
           updateContactForm={this.updateContactForm}
+          editContact={this.editContact}
           errorEmptyField={this.errorEmptyField}
         />
         <div className="error">
@@ -58,6 +61,12 @@ export default class ContactTable extends Component {
       </>
     );
   }
+  editContact = (e) => {
+    this.setState({
+      ...this.state,
+      contact: { ...this.state.contact, [e.target.name]: e.target.value }
+    });
+  };
 
   removeContact = (id) => {
     const prevContacts = this.state.contacts;
@@ -69,6 +78,7 @@ export default class ContactTable extends Component {
         errors: ["Something went wrong, cannot remove Contact!!!"],
         contacts: prevContacts
       });
+      this.clearError();
     });
   };
 
@@ -85,6 +95,7 @@ export default class ContactTable extends Component {
           ...this.state,
           errors: ["Something went wrong, cannot add Contact!!!"]
         });
+        this.clearError();
       });
   };
 
@@ -111,6 +122,7 @@ export default class ContactTable extends Component {
           item.id === prevContact.id ? prevContact : item
         )
       });
+      this.clearError();
     });
   };
 
@@ -124,14 +136,15 @@ export default class ContactTable extends Component {
       ...this.state,
       errors: ["There should not be empty fields!"]
     });
+    this.clearError();
   };
 
-  // как это работает?
-  componentDidUpdate(prev, prevState) {
-    // console.log(this.state.errors === prevState.errors);
-
-    if (this.state.errors === prevState.errors) {
-      this.setState({ ...this.state, errors: [] });
-    }
+  clearError() {
+    setTimeout(() => {
+      this.setState({
+        ...this.state,
+        errors: []
+      });
+    }, 1500);
   }
 }
