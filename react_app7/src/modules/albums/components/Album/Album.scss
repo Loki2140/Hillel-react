@@ -1,0 +1,17 @@
+.imgBlock {
+  // margin: 21px 20px 21px 0;
+  padding: 20px;
+  // width: 100%;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  justify-content: flex-start;
+  align-items: center;
+  .flexImg {
+    flex: 1 1 auto;
+    img {
+      width: auto;
+    }
+  }
+}
